@@ -8,7 +8,6 @@ console.log('Welcome to the Github Avatar Downloader');
 
 function getRepoContributors(repoOwner, repoName, cb) {
   var requestURL = 'https://' + GITHUB_USER + ':' + GITHUB_TOKEN + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
-  // console.log(requestURL);
 
   var options = {
     url: requestURL,
@@ -17,12 +16,13 @@ function getRepoContributors(repoOwner, repoName, cb) {
     }
   };
 
-  // console.log(requestURL);
 
   function parsingJSON(error, response, body) {
     if (!error && response.statusCode == 200) {
       var info = JSON.parse(body);
-      console.log(info);
+      for (var i = 0; i < info.length; i++) {
+        console.log(info[i].avatar_url);
+      }
     }
   }
 
