@@ -42,6 +42,10 @@ function getRepoContributors(repoOwner, repoName, cb) {
   }
 
 // step 1: getRepoContributors makes request for JSON, getting object
+if (!repoOwner || !repoName) {
+  throw('You need a name and owner for your repo!');
+}
+else {
   request.get(options, parsingJSON)
     .on('error', function(err) {
       throw err;
@@ -50,9 +54,9 @@ function getRepoContributors(repoOwner, repoName, cb) {
       console.log('Response Status Code: ', response.statusCode);
     });
   }
+}
 
-
-getRepoContributors("jquery", "jquery", function(err, result) {
+getRepoContributors(process.argv[2], process.argv[3], function(err, result) {
   console.log("Errors", err);
   console.log("Result", err);
 });
