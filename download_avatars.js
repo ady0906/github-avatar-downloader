@@ -1,8 +1,8 @@
 //defining global variables
 var request = require('request');
 var fs = require('fs');
-var GITHUB_USER = "ady0906";
-var GITHUB_TOKEN = "082a33fc158715ca3f872c3a2a33ff0c84479701";
+var GITHUB_USER = "";
+var GITHUB_TOKEN = "";
 var repoOwner = process.argv[2];
 var repoName = process.argv[3];
 
