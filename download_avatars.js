@@ -1,18 +1,17 @@
+//defining global variables
 var request = require('request');
 var fs = require('fs');
-
 var GITHUB_USER = "ady0906";
 var GITHUB_TOKEN = "082a33fc158715ca3f872c3a2a33ff0c84479701";
-
 var repoOwner = process.argv[2];
 var repoName = process.argv[3];
-
 
 console.log('Welcome to the Github Avatar Downloader');
 
 function getRepoContributors(repoOwner, repoName, cb) {
-  var requestURL = 'https://' + GITHUB_USER + ':' + GITHUB_TOKEN + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
 
+// defining local variables
+  var requestURL = 'https://' + GITHUB_USER + ':' + GITHUB_TOKEN + '@api.github.com/repos/' + repoOwner + '/' + repoName + '/contributors';
   var options = {
     url: requestURL,
     headers: {
@@ -20,6 +19,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
     }
   };
 
+// function used to write image files, logging status codes to confirm everything is functioning correctly
   function downloadImageByUrl(url, filePath) {
     request.get(url)
     .on('error', function(err) {
@@ -31,7 +31,7 @@ function getRepoContributors(repoOwner, repoName, cb) {
     .pipe(fs.createWriteStream(filePath));
   }
 
-// step 2: data passed to function
+// step 2: iterate through newly created JSON object to download images by URL and send them over to a designated file nested inside project directory
   function parsingJSON(error, response, body) {
     if (!error && response.statusCode == 200) {
       var info = JSON.parse(body);
@@ -41,9 +41,9 @@ function getRepoContributors(repoOwner, repoName, cb) {
     }
   }
 
-// step 1: getRepoContributors makes request for JSON, getting object
+// step 1: if arguments valid, getRepoContributors makes request for JSON
 if (!repoOwner || !repoName) {
-  throw('You need a name and owner for your repo!');
+  throw new Error ('You need a name and owner for your repo!');
 }
 else {
   request.get(options, parsingJSON)
